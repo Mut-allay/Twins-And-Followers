@@ -8,7 +8,9 @@ class Player:
         self.__hand = []
         self.__has_won = False
         self.__ranks = ['A','2','3','4','5','6','7','8','9','10','J','Q','K']
+ 
 
+ 
     def print_cards(self):
       
                 
@@ -48,7 +50,9 @@ class Player:
             self.print_cards()
 
         if (self.__hand[0].get_rank() == self.__hand[1].get_rank() or self.__hand[2].get_rank() == self.__hand[3].get_rank()) and ((self.__ranks.index(self.__hand[0].get_rank()) == self.__ranks.index(self.__hand[1].get_rank()) - 1) or (self.__ranks.index(self.__hand[2].get_rank()) == self.__ranks.index(self.__hand[3].get_rank()) - 1)):
+
             self.__has_won = True
+            self.print_cards()
 
     def draw_card(self,deck,pot):
         if len(self.__hand) == 3:
@@ -82,7 +86,9 @@ class Player:
         ranks = ['A','2','3','4','5','6','7','8','9','10','J','Q','K']
         if len(self.__hand) == 4 and rank.upper() in ranks:
             for i, card in enumerate(self.__hand):
+
                 if card.get_rank() == rank.upper():
+                    self.print_discarded(card)
                     pot.add_to_pot(card)
                     self.check_pot(players,card)
                     del self.__hand[i]
@@ -97,40 +103,56 @@ class Player:
              self.cpu_throw_card_pro(pot)
         else:
              print('Invalid level')
-             
+    
+    def print_discarded(self,card):
+         
+         card_str = f"""
+    +-------+
+    | {card.get_rank():<2}    |
+    |  {card.get_suit()}    |
+    |    {card.get_rank():>2} |
+    +-------+
+    """
+         print(card_str)
+
     def cpu_throw_card(self,pot):
+
         random_card = random.choice(self.__hand)
         pot.add_to_pot(random_card)
         print(f'{self.__player_name} throws card {random_card}')
         self.__hand.remove(random_card)
         print(f"{self.__player_name} is holding: {[card.__repr__() for card in self.__hand]}")
-        print()
+        self.print_discarded(random_card)
+        input()
 
     def delete_last_2_cards(self,pot):
             random_card = random.choice(self.__hand[2:])
             pot.add_to_pot(random_card)
             print(f'{self.__player_name} throws card {random_card}')
+            self.print_discarded(random_card)
             self.__hand.remove(random_card)
             print(f"{self.__player_name} is holding: {[card.__repr__() for card in self.__hand]}")
-            print()
+            input()
 
     #deletes one of the first 2 cards
     def delete_first_2_cards(self,pot):
             random_card = random.choice(self.__hand[:1])
             pot.add_to_pot(random_card)
             print(f'{self.__player_name} throws card {random_card}')
+            self.print_discarded(random_card)
             self.__hand.remove(random_card)
             print(f"{self.__player_name} is holding: {[card.__repr__() for card in self.__hand]}")
-            print()
+            input()
 
     #deletes first or last card at random
     def delete_2_center_cards(self,pot):
             random_card = random.choice([self.__hand[0],self.__hand[0]])
             pot.add_to_pot(random_card)
             print(f'{self.__player_name} throws card {random_card}')
+            self.print_discarded
             self.__hand.remove(random_card)
             print(f"{self.__player_name} is holding: {[card.__repr__() for card in self.__hand]}")
-            print()
+            input()
 
     def cpu_throw_card_pro(self,pot):
     

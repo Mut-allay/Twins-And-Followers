@@ -38,5 +38,5 @@ class Deck:
                 player.get_hand().sort()
                 if not player.is_cpu:
                      player.print_cards()
-                     input('Press Enter')
+                     input('')
               
